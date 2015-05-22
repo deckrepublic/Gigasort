@@ -1,0 +1,105 @@
+README
+
+
+README for Tyler Decker's Gigasort program
+
+
+csu id: 829466072
+
+unsorted data set: unsorted-2
+with 16 reducers
+
+
+I have a problem with my output, I have 16 reducers in my job but my output is only writing to 8 files. When I look at the job summary after the job finishes it states that 8 reducer jobs have been killed.
+This never seemed to happen when I was testing my program locally. The output from the finished job ran from shared cluster shown below:
+	File System Counters
+		FILE: Number of bytes read=25776411966
+		FILE: Number of bytes written=38673513508
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=21346143942
+		HDFS: Number of bytes written=22419263
+		HDFS: Number of read operations=525
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=32
+		VIEWFS: Number of bytes read=0
+		VIEWFS: Number of bytes written=0
+		VIEWFS: Number of read operations=0
+		VIEWFS: Number of large read operations=0
+		VIEWFS: Number of write operations=0
+	Job Counters 
+		Killed map tasks=3
+		Killed reduce tasks=8                                          //right here is what im talking about
+		Launched map tasks=162
+		Launched reduce tasks=24
+		Data-local map tasks=151
+		Rack-local map tasks=11
+		Total time spent by all maps in occupied slots (ms)=9111968
+		Total time spent by all reduces in occupied slots (ms)=4390442
+		Total time spent by all map tasks (ms)=9111968
+		Total time spent by all reduce tasks (ms)=4390442
+		Total vcore-seconds taken by all map tasks=9111968
+		Total vcore-seconds taken by all reduce tasks=4390442
+		Total megabyte-seconds taken by all map tasks=9330655232
+		Total megabyte-seconds taken by all reduce tasks=4495812608
+	Map-Reduce Framework
+		Map input records=1073741825
+		Map output records=1073741825
+		Map output bytes=9663676425
+		Map output materialized bytes=12884917164
+		Input split bytes=15423
+		Combine input records=2147483650
+		Combine output records=2147483650
+		Reduce input groups=1073741825
+		Reduce shuffle bytes=12884917164
+		Reduce input records=1073741825
+		Reduce output records=1073744
+		Spilled Records=3221225475
+		Shuffled Maps =2544
+		Failed Shuffles=0
+		Merged Map outputs=2544
+		GC time elapsed (ms)=285519
+		CPU time spent (ms)=10087220
+		Physical memory (bytes) snapshot=63201869824
+		Virtual memory (bytes) snapshot=205872209920
+		Total committed heap usage (bytes)=74535927808
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=0
+	File Output Format Counters 
+		Bytes Written=0
+
+I have no idea why my program is doing this and have no clue on how to approach it. Maybe would have had time to figure it out but I had that connection issue with the shared cluster tht you helped me figure out
+I have just generated a merkle tree from the 8 files that were written.
+here is the hash code: c1c459c4ad3a815e5f886bea5e39d59907065ce8
+
+Here is my output file system:
+juneau:~/cs455/Hadoop/GigaSort$ $HADOOP_HOME/bin/hdfs dfs -ls /home/gigasort-output
+Found 17 items
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:19 /home/gigasort-output/_SUCCESS
+-rw-r--r--   3 tylerjms supergroup    2689154 2015-04-08 18:18 /home/gigasort-output/part-r-00000
+-rw-r--r--   3 tylerjms supergroup    2818410 2015-04-08 18:17 /home/gigasort-output/part-r-00001
+-rw-r--r--   3 tylerjms supergroup    2818557 2015-04-08 18:18 /home/gigasort-output/part-r-00002
+-rw-r--r--   3 tylerjms supergroup    2818704 2015-04-08 18:17 /home/gigasort-output/part-r-00003
+-rw-r--r--   3 tylerjms supergroup    2818452 2015-04-08 18:18 /home/gigasort-output/part-r-00004
+-rw-r--r--   3 tylerjms supergroup    2818431 2015-04-08 18:18 /home/gigasort-output/part-r-00005
+-rw-r--r--   3 tylerjms supergroup    2818494 2015-04-08 18:19 /home/gigasort-output/part-r-00006
+-rw-r--r--   3 tylerjms supergroup    2819061 2015-04-08 18:18 /home/gigasort-output/part-r-00007
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00008
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00009
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00010
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00011
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00012
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00013
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00014
+-rw-r--r--   3 tylerjms supergroup          0 2015-04-08 18:14 /home/gigasort-output/part-r-00015
+
+
+
